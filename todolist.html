@@ -31,15 +31,12 @@
     </ul>
   </div>
   <script type="text/javascript">
-    console.log(wilddog)
     var config = {
       authDomain: 'kylin.wilddog.com',
       syncURL: 'https://kylin.wilddogio.com'
     };
-    wilddog.initializeApp(config);
-    var ref = wilddog.sync().ref();
 
-    var ref = wilddog.sync().ref('todolist');
+    var ref = new Wilddog('https://kylin.wilddogio.com/todolist');
     var ongoingRef = ref.child('ongoing');
 
     wu.each(ongoingRef, function(item, id) {
