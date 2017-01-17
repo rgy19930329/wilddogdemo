@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>todolist - kylin</title>
+  <script src="https://cdn.wilddog.com/js/client/current/wilddog.js"></script>
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="./wilddogutils.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <h1>todolist</h1>
+    <div>
+      <input type="text" name="entry" placeholder="添加任务">
+    </div>
+    
+  </div>
+  <script type="text/javascript">
+    var ref = new Wilddog('https://kylin.wilddogio.com/todolist');
+
+    var ongoingRef = ref.child('ongoing');
+
+    wu.each(ongoingRef, function(item, id) {
+      console.log(id, item);
+    });
+
+    $('input[name=entry]').on('keypress', function(e) {
+      if(e.keyCode == 13) {
+        
+      }
+    });
+
+  </script>
+</body>
+</html>
