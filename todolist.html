@@ -6,6 +6,19 @@
   <script src="https://cdn.wilddog.com/js/client/current/wilddog.js"></script>
   <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="./wilddogutils.js"></script>
+  <style type="text/css">
+    .icon-error:after {
+      content: 'x';
+      display: inline-block;
+      border: 1px solid;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -13,21 +26,43 @@
     <div>
       <input type="text" name="entry" placeholder="添加任务">
     </div>
-    
+    <ul id="J-ongoing-ul">
+      
+    </ul>
   </div>
   <script type="text/javascript">
-    var ref = new Wilddog('https://kylin.wilddogio.com/todolist');
+    console.log(wilddog)
+    var config = {
+      authDomain: 'kylin.wilddog.com',
+      syncURL: 'https://kylin.wilddogio.com'
+    };
+    wilddog.initializeApp(config);
+    var ref = wilddog.sync().ref();
 
+    var ref = wilddog.sync().ref('todolist');
     var ongoingRef = ref.child('ongoing');
 
     wu.each(ongoingRef, function(item, id) {
-      console.log(id, item);
+      $('<li>' + item + 
+          '<span class="icon-error J-del-btn" data-id=' + id + '></span>' +
+        '</li>')
+      .appendTo('#J-ongoing-ul');
     });
 
     $('input[name=entry]').on('keypress', function(e) {
       if(e.keyCode == 13) {
-        
+        var item = $(this).val();
+        if($.trim(item)) {
+          $(this).val('');
+          wu.add(ongoingRef, item);
+        } 
       }
+    });
+
+    $('#J-ongoing-ul').on('click', '.J-del-btn', function() {
+      var id = $(this).data('id');
+      console.log(id);
+      wu.remove(ongoingRef, id);
     });
 
   </script>
